@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head><title>Walk your own Adventure!</title>
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" sizes="120x120" href="ICON_iphone_retina.png" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0, user-scalable=no">
+		<script language="javascript" type="text/javascript" src="https://class.arts.ucsb.edu/~art122/includes/p5/p5.js"></script>
+		<script language="javascript" type="text/javascript" src="https://class.arts.ucsb.edu/~art122/includes/p5/geolocation/p5.geolocation.js"></script>
+		<script language="javascript" type="text/javascript" src="http://class.arts.ucsb.edu/~art102/includes/p5/p5.js"></script>
+		<script language="javascript" type="text/javascript" src="http://class.arts.ucsb.edu/~art102/includes/p5/addons/p5.sound.min.js"></script>
+		<script language="javascript" type="text/javascript" src="http://class.arts.ucsb.edu/~art102/includes/p5/addons/p5.dom.js"></script>
+
+			<link href='https://fonts.googleapis.com/css?family=Aladin' rel='stylesheet'> 
+
+<style> 
+	body 	{
+				padding: 0; margin: 0;
+				background-color: rgb(0,0,0);
+				background-size: cover;
+				background-repeat: no-repeat;
+				height: 100%;
+				width: 100%;
+			} 
+			
+	.center {
+    			position: absolute;
+    			left: 0;
+    			top: 40%;
+   				width: 100%;
+   				text-align: center;
+    			font-size: 17px;
+    			font-family: Aladin;
+    		}				
+	
+	.button {
+				position: absolute;
+				top: 31%;
+				right:10px;
+    			background-color: red;
+    			border: 100px;
+    			color: white;
+    			text-align: center;
+    			text-decoration: none;
+    			font-size: 16px;
+			}
+	
+	#imgs 	{
+				position: absolute;
+				top: 31%
+				right: 50px;
+			}
+	
+	#d1		{
+				position: absolute;
+				top:65%;
+				left:300px;
+				font-size:15px;
+				font-family: helvetica;
+				color: rgb(255,0,0);
+			}
+	
+	#d2		{
+				position: absolute;
+				top:70%;
+				left:300px;
+				font-size:15px;
+				font-family: helvetica;
+				color: rgb(255,0,0);
+			}
+			
+	#d3	{
+				position: absolute;
+				top:75%;
+				left:300px;
+				font-size:15px;
+				font-family: helvetica;
+				color: rgb(255,0,0);
+			}
+			
+	
+	#d4		{
+				position: absolute;
+				top:80%;
+				left:300px;
+				font-size:15px;
+				font-family: helvetica;
+				color: rgb(255,0,0);
+			}
+			
+	#d5	{
+				position: absolute;
+				top:85%;
+				left:300px;
+				font-size:15px;
+				font-family: helvetica;
+				color: rgb(255,0,0);
+			}	
+	#d6	{
+				position: absolute;
+				top:90%;
+				left:300px;
+				font-size:15px;
+				font-family: helvetica;
+				color: rgb(255,0,0);
+			}			
+	
+	#d1t		{
+				position: absolute;
+				top:65%;
+				left:50px;
+				font-size:15px;
+				font-family: Aladin;
+				color: rgb(0,242,255);
+			}
+	
+	#d2t		{
+				position: absolute;
+				top:70%;
+				left:50px;
+				font-size:15px;
+				font-family: Aladin;
+				color: rgb(0,242,255);
+			}
+			
+	#d3t	{
+				position: absolute;
+				top:75%;
+				left:50px;
+				font-size:15px;
+				font-family: Aladin;
+				color: rgb(0,242,255);
+			}
+			
+	
+	#d4t		{
+				position: absolute;
+				top:80%;
+				left:50px;
+				font-size:15px;
+				font-family: Aladin;
+				color: rgb(0,242,255);
+			}
+			
+	#d5t	{
+				position: absolute;
+				top:85%;
+				left:50px;
+				font-size:15px;
+				font-family: Aladin;
+				color: rgb(0,242,255);
+			}	
+			
+	#d6t	{
+				position: absolute;
+				top:90%;
+				left:50px;
+				font-size:15px;
+				font-family: Aladin;
+				color: rgb(0,242,255);
+			}						
+	
+	
+					
+</style>
+
+
+<script>
+	var fence1,fence2
+	
+	//function storing music
+	
+	
+	
+	//This function is automatically triggered when the p5 library is loaded
+	function setup() 	
+{	
+		fence1 = new geoFenceCircle(34.412578, -119.849091, 0.05)	//lab
+		fence2 = new geoFenceCircle(34.411537, -119.850860, 0.05) //tree
+		fence3 = new geoFenceCircle(34.412754, -119.852617, 0.05)	// SRB
+		fence4 = new geoFenceCircle(34.412632, -119.848149, 0.05)	// Storke
+//to wipe!		
+		fencetest = new geoFenceCircle(34.419558, -119.870789,0.02) 	//test (Sierra Madre)
+		fencetest2 = new geoFenceCircle(34.412803, -119.862811,0.02) 	//test (Home)
+		
+			d1out=document.getElementById('d1');
+ 			d2out=document.getElementById('d2');
+ 			d3out=document.getElementById('d3');
+ 			d4out=document.getElementById('d4');
+ //to wipe!			
+ 			d5out=document.getElementById('d5');
+ 			d6out=document.getElementById('d6');
+ 				watchPosition(gettinglocationdata)
+}
+						
+	function gettinglocationdata(position)	{
+		var distf1 = calcGeoDistance(34.412578, -119.849091, position.latitude, position.longitude, 'km');
+		var distf2 = calcGeoDistance(34.411537, -119.850860, position.latitude, position.longitude, 'km');
+		var distf3 = calcGeoDistance(34.412754, -119.852617, position.latitude, position.longitude, 'km');
+		var distf4 = calcGeoDistance(34.412648, -119.848124, position.latitude, position.longitude, 'km');
+// to wipe!	
+		var distf5 = calcGeoDistance(34.419558, -119.870789, position.latitude, position.longitude, 'km');
+		var distf6 = calcGeoDistance(34.412803, -119.862811, position.latitude, position.longitude, 'km');
+
+
+		var dist1 = distf1*1000;
+				d1 = dist1.toFixed(2);
+		var dist2 = distf2*1000;
+				d2 = dist2.toFixed(2);	
+		var dist3 = distf3*1000;
+				d3 = dist3.toFixed(2);
+		var dist4 = distf4*1000;
+				d4 = dist4.toFixed(2);
+		var dist5 = distf5*1000;
+				d5 = dist5.toFixed(2);						
+		var dist6 = distf6*1000;
+				d6 = dist6.toFixed(2);
+		d1out.innerHTML=d1;
+		d2out.innerHTML=d2;
+		d3out.innerHTML=d3;	
+		d4out.innerHTML=d4;	
+		
+// !! to wipe after	
+		d5out.innerHTML=d5;
+		d6out.innerHTML=d6;			
+		
+											}
+	
+
+	function draw()
+{
+		//print(fence1.insideFence);
+		//print(fence2.insideFence);
+
+		if(fence1.insideFence)	{
+			  	document.body.style.backgroundImage = "url('shire.jpg')"
+  				document.getElementById('text').innerHTML="Welcome young adventurer! Hope you're ready to seek the legendary Gaucho Treasure! Rumor has it that it's located in one of the following locations: 1. The Tree of Life (Lagoon Tree) 2. The Dungeon of Doom (Storke Tower) or 3. The Chapel of Mentors (SRB). Head to one of the following destinations to continue!";
+  				document.getElementById('text').style.color = "white";
+  				
+								}
+		else if(fence2.insideFence)	{
+				document.body.style.backgroundImage = "url('tol2.jpg')"
+				document.getElementById('text').innerHTML="You find yourself in front of the Tree of Life! A weary traveler is sitting on one of its thick roots wiping his sweat. He spots you and notices the map you're holding. 'Aye', he says, 'the treasurer has been moved to the Ruins of the Mentors (SRB). Make haste! "
+				document.getElementById('text').style.color = "white";
+		
+									}
+									
+		else if(fence3.insideFence)	{
+				document.body.style.backgroundImage = "url('SRB.jpg')"
+				document.getElementById('text').innerHTML="The silence echoes in the halls of the Ruins of Mentors as you make your way to its front doors...A crown jewel sits atop a golden pedestal but it seems eerily quiet...To be Continued...."
+				document.getElementById('text').style.color = "white";
+		
+									}	
+									
+		else if(fence4.insideFence)	{
+				document.body.style.backgroundImage = "url('dod.jpg')"
+				document.getElementById('text').innerHTML="Welcome to the Dungeon of Doom! You enter the doors, only to be smashed by the first booby trap... Sorry traveler, your quest ends here..."
+				document.getElementById('text').style.color = "white";
+		
+									}														
+		
+		else if(fencetest.insideFence)	{
+				document.body.style.backgroundImage = "url('RaM.jpg')"
+				document.getElementById('text').innerHTML="Oh, yeah! You gotta get schwifty You gotta get schwifty in here It's time to get schwifty Oh oh You gotta get schwifty Oh, yeah!"
+				document.getElementById('text').style.color = "white";
+		
+										}
+		else if(fencetest2.insideFence)	{
+				document.body.style.backgroundImage = "url('NY.jpg')"
+				document.getElementById('text').innerHTML="Oh shit we home!"
+				document.getElementById('text').style.color = "white";
+		
+										}										
+											
+		else		{
+				document.body.style.backgroundImage = "url('travel.jpg')"
+  				document.getElementById('text').innerHTML="Well, I guess we're still walking...If you haven't started yet, make your way to Home Base (Arts Building Rm 2242) to get started!"
+  				document.getElementById('text').style.color = "white";
+					}
+}		
+		
+		function clickdown(){
+		
+			if(fence1.insideFence)	{
+						document.getElementById('imgs').src = "dod.jpg"			
+									}
+			else	{
+						document.getElementById('imgs').src = "tol2.jpg"			
+					}							
+							}
+	
+
+
+		
+
+</script>
+
+<body>
+	<!-- <button type="button" class="button" onclick="clickdown()">Interaction</button> -->
+
+	<div id="imgs"></div>
+	<div id="text" class="center"></div>
+	<div id="imgs"></div>
+	<div id="d1"> Home Base</div>
+	<div id="d2"> Tree of Life</div>
+	<div id="d3"> Ruins of Mentors</div>
+	<div id="d4"> Dungeon of Doom</div>
+<!-- <div id="d5"> Pickle Rickkkk!</div> -->
+<!-- <div id="d6"> Home!</div> -->
+
+	
+	<div id="d1t"> Dist(m): Home Base (ART 2242)</div>
+	<div id="d2t"> Dist(m): Tree of Life (LAGOON TREE)</div>
+	<div id="d3t"> Dist(m): Ruins of Mentors (SRB)</div>
+	<div id="d4t"> Dist(m): Dungeon of Doom (STORKE TOWER)</div>
+<!--	<div id="d5t"> Dist(m): Pickle RickkK! </div> -->
+<!-- <div id="d6t"> Dist(m): We home bishesss! </div> -->
+
+</body>
+
+</head>
+</html>
